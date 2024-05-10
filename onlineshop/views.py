@@ -3,10 +3,15 @@ from .serializers import OrderSerializer
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+from django.shortcuts import render
 from django.core.mail import send_mail
 
 from backend.settings import EMAIL_HOST_USER
 
+
+
+def index(request):
+    return render(request, 'onlineshop/index.html')
 class OrderView(APIView):
     def get(self, request):
         try:

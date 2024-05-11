@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Web Page</title>
+    <title>Deploy Django Project On Vercel - Free Hosting Provider</title>
     <style>
         /* Inline CSS for responsiveness */
         body {
@@ -41,18 +41,91 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>How to deploy a Django based web app to free hosting platform Vercel</h1>
-            <h3> A detailed step by step guide </h3>
+            <h1>Deploy Django Project On Vercel - Free Hosting Provider</h1>
+            <h3>A detailed step-by-step guide</h3>
         </div>
         <div class="content">
+            <p>Vercel, with its simplicity and a generous free tier, is an ideal hosting platform for smaller applications. It defaults to Python 3.12 as of May 11, 2024, making it crucial to understand its constraints and capabilities before diving into deployment.</p>
+            <h2>Before Deployment</h2>
+            <ol>
+                <li>
+                    <p>Make sure you have updated Python to Python 3.12.</p>
+                </li>
+                <li>
+                    <p>Make sure you have a <code>build_files.sh</code> script.</p>
+                    <ol>
+                        <li>
+                            <h3>Create a <code>build_files.sh</code> in the root of your project and paste the code below:</h3>
+                            <pre><code>#!/usr/bin/env bash
+echo "Building the project..."
+python3.12 -m pip install -r requirements.txt
+echo "Collect Static..."
+python3.12 manage.py collectstatic --noinput --clear</code></pre>
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <p>Make sure you have a <code>requirements.txt</code> file.</p>
+                    <ol>
+                        <li>
+                            <h3>Create a <code>requirements.txt</code> file by running the following command:</h3>
+                            <pre><code>pip freeze > requirements.txt</code></pre>
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <p>Make sure you have a <code>vercel.json</code> file.</p>
+                    <ol>
+                        <li>
+                            <h3>Create a <code>vercel.json</code> in the root directory of your project and then paste the following content:</h3>
+                            <pre><code>{
+    "builds": [
+        {
+            "src": "yourprojectname/wsgi.py",
+            "use": "@vercel/python",
+            "config": { "maxLambdaSize": "15mb", "runtime": "python3.12" }
+        },
+        {
+            "src": "build_files.sh",
+            "use": "@vercel/static-build",
+            "config": { "distDir": "staticfiles_build" }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "yourprojectname/wsgi.py"
+        }
+    ]
+}</code></pre>
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <p>In your <code>yourprojectname/wsgi.py</code> file, write <code>app=application</code>.</p>
+                </li>
+                <li>
+                    <p>In your project's settings file, write:</p>
+                    <pre><code>STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+MEDIA_URLS =''
+MEDIA_ROOT = os.path.join(BASE_DIR)
+ALLOWED_HOSTS = ['*']</code></pre>
+                </li>
+            </ol>
             <h2>Production Steps</h2>
             <ol>
-                <li>Will be writing these steps in detail </li>
-                <li>Ensure all dependencies are installed.</li>
-                <li>Optimize your code and assets for production.</li>
-                <li>Test your application thoroughly to ensure it behaves as expected.</li>
-                <li>Deploy your application using a reliable hosting provider.</li>
-                <li>Monitor your application's performance and security regularly.</li>
+                <li>Run <code>pip install drf_yasg</code>.</li>
+                <li>Run <code>python manage.py collectstatic</code>.</li>
+                <li>Push your code to GitHub.</li>
+                <li>Login/Sign Up to Vercel and import your project.</li>
+                <li>That's all! If you encounter any issues, feel free to reach out to me at <a href="mailto:jawadduet@gmail.com">jawadduet@gmail.com</a>. I will be happy to assist you further
+
+. Happy coding!</li>
             </ol>
         </div>
     </div>
@@ -61,3 +134,6 @@
     </div>
 </body>
 </html>
+```
+
+This code provides correct headings, structures the content logically, and improves readability. Additionally, it ensures that the HTML is well-formed and follows best practices.
